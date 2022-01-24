@@ -51,27 +51,29 @@ class _ScannerState extends State<Scanner> {
             ),
           ),
           Expanded(
-            flex: 1,
-            child: Center(
-              child: (result != null)
-                  ? Column(children: [
-                      Text(result!.code),
-                      ElevatedButton(
-                        onPressed: () async {
-                          await player.setAsset('assets/audio/send.mp3');
-                          player.play();
-                          await controller!.resumeCamera();
-                          senddata(result!.code);
-                          setState(() {
-                            result = null;
-                          });
-                        },
-                        child: Text('Enviar'),
-                      )
-                    ])
-                  : Text('Scan a code'),
-            ),
-          )
+              flex: 1,
+              child: Container(
+                color: Colors.white,
+                child: Center(
+                  child: (result != null)
+                      ? Column(children: [
+                          Text(result!.code),
+                          ElevatedButton(
+                            onPressed: () async {
+                              await player.setAsset('assets/audio/send.mp3');
+                              player.play();
+                              await controller!.resumeCamera();
+                              senddata(result!.code);
+                              setState(() {
+                                result = null;
+                              });
+                            },
+                            child: Text('Enviar'),
+                          )
+                        ])
+                      : Text('Scan a code'),
+                ),
+              ))
         ],
       ),
     );
@@ -93,7 +95,8 @@ class _ScannerState extends State<Scanner> {
 
   Future<bool> senddata(String cedula) async {
     bool result = false;
-    var url = Uri.parse('https://asotkdalajuela.com/db_link_flutter/insertdata.php');
+    var url =
+        Uri.parse('https://asotkdalajuela.com/db_link_flutter/insertdata.php');
     var response = await http.post(url, body: {'cedula': cedula});
     print('Response status: ${response.statusCode}');
     if (response.statusCode == 200) {
